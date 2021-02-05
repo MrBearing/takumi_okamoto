@@ -82,6 +82,5 @@ fn main() {
         SubCommand::Github(_) => {webbrowser::open(MY_GITHUB).unwrap(); ()},
         SubCommand::Website(_) => {webbrowser::open(MY_GITHUB).unwrap(); ()},
         SubCommand::Qiita(_) => {webbrowser::open(MY_GITHUB).unwrap(); ()},
-        _ => (),
     }
 }
