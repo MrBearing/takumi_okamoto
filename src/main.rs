@@ -80,7 +80,7 @@ fn main() {
         SubCommand::All(_) => describe_all(),
         SubCommand::Skills(_) => describe_skill(),
         SubCommand::Github(_) => {webbrowser::open(MY_GITHUB).unwrap(); ()},
-        SubCommand::Website(_) => {webbrowser::open(MY_GITHUB).unwrap(); ()},
-        SubCommand::Qiita(_) => {webbrowser::open(MY_GITHUB).unwrap(); ()},
+        SubCommand::Website(_) => {webbrowser::open(MY_WEBSITE).unwrap(); ()},
+        SubCommand::Qiita(_) => {webbrowser::open(MY_QIITA).unwrap(); ()},
     }
 }
