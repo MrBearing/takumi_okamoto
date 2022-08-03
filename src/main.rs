@@ -1,4 +1,4 @@
-use clap::Clap;
+use clap::{Parser, Subcommand};
 use webbrowser;
 
 const MY_GITHUB :&str = "https://github.com/MrBearing";
@@ -7,15 +7,15 @@ const MY_QIITA : &str = "https://qiita.com/MrBearing";
 
 
 /// This program is the self introduction of Takumi Okamoto's
-#[derive(Clap)]
+#[derive(Parser)]
 #[clap(version = "0.1.0", author = "Takumi Okamoto <takumi1988okamoto@gmail.com>")]
 struct Options {
     #[clap(subcommand)]
-    sub_comand: SubCommand,
+    sub_comand: Commands,
 }
 
-#[derive(Clap)]
-enum SubCommand {
+#[derive(Subcommand)]
+enum Commands {
     All(All),
     Skills(Skills),
     Website(Website),
@@ -24,18 +24,18 @@ enum SubCommand {
 }
 
 /// A subcommand for opennig my website
-#[derive(Clap)]
+#[derive(Parser)]
 struct Website {}
 
 /// A subcommand for opennig my Github
-#[derive(Clap)]
+#[derive(Parser)]
 struct Github {}
 /// A subcommand for opennig my Qiita
-#[derive(Clap)]
+#[derive(Parser)]
 struct Qiita {}
 
 /// A subcommand for printing all my profile
-#[derive(Clap)]
+#[derive(Parser)]
 struct All { }
 
 fn describe_all(){
@@ -50,7 +50,7 @@ fn describe_all(){
 
 
 /// A subcommand for printing my skills
-#[derive(Clap)]
+#[derive(Parser)]
 struct Skills {}
 
 fn describe_skill(){
@@ -77,10 +77,10 @@ fn describe_skill(){
 fn main() {
     let options: Options = Options::parse();
     match options.sub_comand {
-        SubCommand::All(_) => describe_all(),
-        SubCommand::Skills(_) => describe_skill(),
-        SubCommand::Github(_) => {webbrowser::open(MY_GITHUB).unwrap(); ()},
-        SubCommand::Website(_) => {webbrowser::open(MY_WEBSITE).unwrap(); ()},
-        SubCommand::Qiita(_) => {webbrowser::open(MY_QIITA).unwrap(); ()},
+        Commands::All(_) => describe_all(),
+        Commands::Skills(_) => describe_skill(),
+        Commands::Github(_) => {webbrowser::open(MY_GITHUB).unwrap(); ()},
+        Commands::Website(_) => {webbrowser::open(MY_WEBSITE).unwrap(); ()},
+        Commands::Qiita(_) => {webbrowser::open(MY_QIITA).unwrap(); ()},
     }
 }
