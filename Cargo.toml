@@ -9,5 +9,5 @@ description = "my self-introduction software"
 license = "Apache-2.0"
 
 [dependencies]
-clap = "3.0.0-beta.2"
-webbrowser = "0.5.5"
+clap = {version="3.2.16",features=["derive"]}
+webbrowser = "0.7.1"
