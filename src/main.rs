@@ -9,34 +9,20 @@ const MY_QIITA : &str = "https://qiita.com/MrBearing";
 /// This program is the self introduction of Takumi Okamoto's
 #[derive(Parser)]
 #[clap(version = "0.1.0", author = "Takumi Okamoto <takumi1988okamoto@gmail.com>")]
-struct Options {
+struct Cli {
     #[clap(subcommand)]
     sub_comand: Commands,
 }
 
 #[derive(Subcommand)]
 enum Commands {
-    All(All),
-    Skills(Skills),
-    Website(Website),
-    Github(Github),
-    Qiita(Qiita),
+    All,
+    Skills,
+    Website,
+    Github,
+    Qiita,
 }
 
-/// A subcommand for opennig my website
-#[derive(Parser)]
-struct Website {}
-
-/// A subcommand for opennig my Github
-#[derive(Parser)]
-struct Github {}
-/// A subcommand for opennig my Qiita
-#[derive(Parser)]
-struct Qiita {}
-
-/// A subcommand for printing all my profile
-#[derive(Parser)]
-struct All { }
 
 fn describe_all(){
         println!("Name : Takumi Okamoto");
@@ -46,8 +32,6 @@ fn describe_all(){
         println!("web : {}",MY_WEBSITE);
         println!("Qiita :{}",MY_QIITA)
 }
-
-
 
 /// A subcommand for printing my skills
 #[derive(Parser)]
@@ -65,7 +49,7 @@ fn describe_skill(){
         println!("Programings");
         println!("{0: <5} {1: <5}","","Rust");
         println!("{0: <5} {1: <5}","","Elixir");
-        println!("{0: <5} {1: <5}","","ROS/ ROS2");
+        println!("{0: <5} {1: <5}","","ROS/ROS2");
         println!("{0: <5} {1: <5}","","C/C++");
         println!("{0: <5} {1: <5}","","Java SE 1.6~1.8 frameWork: SpringFramework 4");
         println!("{0: <5} {1: <5}","","python");
@@ -75,12 +59,13 @@ fn describe_skill(){
 
 
 fn main() {
-    let options: Options = Options::parse();
+    let options = Cli::parse();
     match options.sub_comand {
-        Commands::All(_) => describe_all(),
-        Commands::Skills(_) => describe_skill(),
-        Commands::Github(_) => {webbrowser::open(MY_GITHUB).unwrap(); ()},
-        Commands::Website(_) => {webbrowser::open(MY_WEBSITE).unwrap(); ()},
-        Commands::Qiita(_) => {webbrowser::open(MY_QIITA).unwrap(); ()},
+        Commands::All => describe_all(),
+        Commands::Skills => describe_skill(),
+        Commands::Github => {webbrowser::open(MY_GITHUB).unwrap(); ()},
+        Commands::Website => {webbrowser::open(MY_WEBSITE).unwrap(); ()},
+        Commands::Qiita => {webbrowser::open(MY_QIITA).unwrap(); ()},
     }
+    
 }
