@@ -7,10 +7,9 @@ const MY_QIITA : &str = "https://qiita.com/MrBearing";
 const REQUEST_MY_CV : &str = "https://forms.gle/y2MDcCGq7TdSsq286";// Google form.
 
 
-
-/// This program is the self introduction of Takumi Okamoto's
+/// This program is the self introduction of Takumi Okamoto
 #[derive(Parser)]
-#[clap(version = "0.1.0", author = "Takumi Okamoto <takumi1988okamoto@gmail.com>")]
+#[clap(version = env!("CARGO_PKG_VERSION"), author = env!("CARGO_PKG_AUTHORS"))]
 struct Cli {
     #[clap(subcommand)]
     sub_comand: Commands,
