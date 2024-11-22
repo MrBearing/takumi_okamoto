@@ -1,7 +1,7 @@
 [package]
 name = "takumi_okamoto"
 version = "0.3.0"
-edition = "2018"
+edition = "2021"
 authors = ["Takumi Okamoto <takumi1988okamoto@gmail.com>"]
 keywords = ["takumi_okamoto","engineer","rust_engineer","robotics","mechanical_design"]
 repository = "https://github.com/MrBearing/takumi_okamoto"
