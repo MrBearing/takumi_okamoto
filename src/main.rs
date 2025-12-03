@@ -12,7 +12,7 @@ const REQUEST_MY_CV : &str = "https://forms.gle/y2MDcCGq7TdSsq286";// Google for
 #[clap(version = env!("CARGO_PKG_VERSION"), author = env!("CARGO_PKG_AUTHORS"))]
 struct Cli {
     #[clap(subcommand)]
-    sub_comand: Commands,
+    sub_command: Commands,
 }
 
 #[derive(Subcommand)]
@@ -47,29 +47,40 @@ fn describe_all(){
 struct Skills {}
 
 fn describe_skill(){
-        // 配列でやりたい。。。
-        println!("**skills***");
-        println!("");
-        println!("Mechanical design");
-        println!("{0: <5} {1: <5}","","Robot system design");
-        println!("{0: <5} {1: <5}","","Heat-resistant environment machine design");
-        println!("{0: <5} {1: <5}","","Design of equipment for chemical-resistant (fluorine, etc.) environments, etc.");
-        println!("");
-        println!("Programings");
-        println!("{0: <5} {1: <5}","","Rust");
-        println!("{0: <5} {1: <5}","","Elixir");
-        println!("{0: <5} {1: <5}","","ROS/ROS2");
-        println!("{0: <5} {1: <5}","","C/C++");
-        println!("{0: <5} {1: <5}","","python");
-        println!("{0: <5} {1: <5}","","Kotlin");
-        println!("{0: <5} {1: <5}","","Java SE 1.6~1.8 frameWork: SpringFramework 4");
-        println!("");
+        // シンプルなテーブル表示にしたいので、データは配列で持たせて回す
+        const MECHANICAL: &[&str] = &[
+                "Robot system design",
+                "Heat-resistant environment machine design",
+                "Design of equipment for chemical-resistant (fluorine, etc.) environments, etc.",
+        ];
+        const PROGRAMMING: &[&str] = &[
+                "Rust",
+                "ROS/ROS2",
+                "python",
+                "C/C++",
+                "Elixir",
+                "Kotlin",
+                "Java SE 1.6~1.8 frameWork: SpringFramework 4",
+        ];
+
+        println!("**skills***\n");
+        print_skill_section("Mechanical design", MECHANICAL);
+        println!();
+        print_skill_section("Programings", PROGRAMMING);
+        println!();
+}
+
+fn print_skill_section(title: &str, items: &[&str]) {
+        println!("{title}");
+        for item in items {
+                println!("{0: <5} {1: <5}", "", item);
+        }
 }
 
 
 fn main() {
     let options = Cli::parse();
-    match options.sub_comand {
+    match options.sub_command {
         Commands::All => describe_all(),
         Commands::Skills => describe_skill(),
         Commands::Github => {webbrowser::open(MY_GITHUB).unwrap(); ()},
