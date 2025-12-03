@@ -20,7 +20,10 @@ enum Commands {
     /// print all
     All,
     /// print my skills
-    Skills,
+    Skills {
+        #[clap(subcommand)]
+        category: Option<SkillCategory>,
+    },
     /// open my web page in browser
     Website,
     /// open my Github page in browser
@@ -31,11 +34,34 @@ enum Commands {
     CV,
 }
 
+#[derive(Subcommand, Clone, Copy)]
+enum SkillCategory {
+    /// Show only software skills
+    Software,
+    /// Show only mechanical skills
+    Mechanical,
+}
+
+const MECHANICAL: &[&str] = &[
+        "Robot system design",
+        "Heat-resistant environment machine design",
+        "Design of equipment for chemical-resistant (fluorine, etc.) environments, etc.",
+];
+
+const PROGRAMMING: &[&str] = &[
+        "Rust",
+        "ROS/ROS2",
+        "python",
+        "C/C++",
+        "Elixir",
+        "Kotlin",
+        "Java SE 1.6~1.8 frameWork: SpringFramework 4",
+];
 
 fn describe_all(){
         println!("Name : Takumi Okamoto");
         println!("~~ Mechanical Engineer. Sometimes wrote software ~~");
-        describe_skill();
+        describe_skill(None);
         println!("Github address : {}",MY_GITHUB);
         println!("web : {}",MY_WEBSITE);
         println!("Qiita :{}",MY_QIITA);
@@ -43,30 +69,17 @@ fn describe_all(){
 }
 
 /// A subcommand for printing my skills
-#[derive(Parser)]
-struct Skills {}
-
-fn describe_skill(){
-        // シンプルなテーブル表示にしたいので、データは配列で持たせて回す
-        const MECHANICAL: &[&str] = &[
-                "Robot system design",
-                "Heat-resistant environment machine design",
-                "Design of equipment for chemical-resistant (fluorine, etc.) environments, etc.",
-        ];
-        const PROGRAMMING: &[&str] = &[
-                "Rust",
-                "ROS/ROS2",
-                "python",
-                "C/C++",
-                "Elixir",
-                "Kotlin",
-                "Java SE 1.6~1.8 frameWork: SpringFramework 4",
-        ];
-
+fn describe_skill(category: Option<SkillCategory>){
         println!("**skills***\n");
-        print_skill_section("Mechanical design", MECHANICAL);
-        println!();
-        print_skill_section("Programings", PROGRAMMING);
+        match category {
+                Some(SkillCategory::Mechanical) => print_skill_section("Mechanical design", MECHANICAL),
+                Some(SkillCategory::Software) => print_skill_section("Programings", PROGRAMMING),
+                None => {
+                        print_skill_section("Mechanical design", MECHANICAL);
+                        println!();
+                        print_skill_section("Programings", PROGRAMMING);
+                }
+        }
         println!();
 }
 
@@ -82,7 +95,7 @@ fn main() {
     let options = Cli::parse();
     match options.sub_command {
         Commands::All => describe_all(),
-        Commands::Skills => describe_skill(),
+        Commands::Skills { category } => describe_skill(category),
         Commands::Github => {webbrowser::open(MY_GITHUB).unwrap(); ()},
         Commands::Website => {webbrowser::open(MY_WEBSITE).unwrap(); ()},
         Commands::Qiita => {webbrowser::open(MY_QIITA).unwrap(); ()},
