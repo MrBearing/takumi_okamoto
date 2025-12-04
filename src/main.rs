@@ -90,15 +90,26 @@ fn print_skill_section(title: &str, items: &[&str]) {
         }
 }
 
+fn open_link(label: &str, url: &str) {
+        if !webbrowser::Browser::is_available() {
+                println!("{label} : {url}");
+                return;
+        }
+
+        if let Err(err) = webbrowser::open(url) {
+                eprintln!("Failed to open {label} ({url}): {err}");
+        }
+}
+
 
 fn main() {
     let options = Cli::parse();
     match options.sub_command {
         Commands::All => describe_all(),
         Commands::Skills { category } => describe_skill(category),
-        Commands::Github => {webbrowser::open(MY_GITHUB).unwrap(); ()},
-        Commands::Website => {webbrowser::open(MY_WEBSITE).unwrap(); ()},
-        Commands::Qiita => {webbrowser::open(MY_QIITA).unwrap(); ()},
-        Commands::CV=> {webbrowser::open(REQUEST_MY_CV).unwrap();()},
+        Commands::Github => open_link("Github", MY_GITHUB),
+        Commands::Website => open_link("Website", MY_WEBSITE),
+        Commands::Qiita => open_link("Qiita", MY_QIITA),
+        Commands::CV=> open_link("CV", REQUEST_MY_CV),
     }
 }
